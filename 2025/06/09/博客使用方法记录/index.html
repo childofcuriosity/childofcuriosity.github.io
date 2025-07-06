@@ -27,7 +27,7 @@
 <meta property="og:description" content="当然可以考虑 GitHub Pages！它是托管个人博客的免费、稳定且开发者友好的绝佳选择，尤其适合技术类博客或愿意学习 Git&#x2F;Markdown 的用户。既然你之前尝试过但忘记了，下面带你一步步“复活”它，并补充关键细节： 🌟 GitHub Pages 建博客核心优势 ✅ 完全免费✅ 无需服务器（GitHub 托管）✅ 极快的全球访问速度（CDN支持）✅ 原生支持 HTTPS✅ 完美">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2025-06-09T13:09:19.000Z">
-<meta property="article:modified_time" content="2025-06-09T13:20:14.000Z">
+<meta property="article:modified_time" content="2025-07-06T11:22:27.218Z">
 <meta property="article:author" content="childofcuriosity">
 <meta property="article:tag" content="笔记与思想">
 <meta name="twitter:card" content="summary_large_image">
@@ -223,7 +223,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          946 words
+          1.2k words
         
       </span>
     
@@ -234,7 +234,7 @@
         
         
         
-          8 mins
+          10 mins
         
       </span>
     
@@ -318,6 +318,31 @@ git push origin main  # 或 master
 <p>⚙️ 步骤 5：部署到 GitHub Pages<br>安装部署插件：</p>
 <pre><code class="hljs">    npm install hexo-deployer-git --save
 </code></pre>
+<h2 id="⚠️-换电脑-云盘同步后恢复与部署注意事项"><a href="#⚠️-换电脑-云盘同步后恢复与部署注意事项" class="headerlink" title="⚠️ 换电脑&#x2F;云盘同步后恢复与部署注意事项"></a>⚠️ 换电脑&#x2F;云盘同步后恢复与部署注意事项</h2><ol>
+<li><p><strong>避免云盘同步带来的权限问题</strong><br>不要直接在 OneDrive、百度网盘等同步盘根目录下操作 Hexo 博客项目。遇到 public、.deploy_git 文件夹无法删除时，先关闭 Hexo，再用管理员权限手动删除这些文件夹。</p>
+</li>
+<li><p><strong>主题安装后请删除 .git 文件夹</strong><br>克隆主题后，务必删除 themes&#x2F;主题名&#x2F;.git 文件夹，否则会导致 Git 嵌套仓库警告，影响后续提交和部署。</p>
+</li>
+<li><p><strong>部署分支要和 GitHub 仓库一致</strong><br>_config.yml 里的 deploy.branch 要和你的 GitHub Pages 仓库分支一致（通常是 main）。</p>
+</li>
+<li><p><strong>新电脑恢复流程</strong>  </p>
+<ul>
+<li>git clone 你的博客源码仓库</li>
+<li>npm install</li>
+<li>检查并删除 themes&#x2F;主题名&#x2F;.git</li>
+<li>hexo clean</li>
+<li>hexo generate</li>
+<li>hexo deploy</li>
+</ul>
+</li>
+<li><p><strong>常见问题自查</strong>  </p>
+<ul>
+<li>权限报错：手动删除 public&#x2F;.deploy_git</li>
+<li>主题报错：删除 themes&#x2F;主题名&#x2F;.git</li>
+<li>部署失败：检查 deploy.branch 设置</li>
+</ul>
+</li>
+</ol>
 <p>修改站点配置 _config.yml：</p>
 <pre><code class="hljs">    deploy:
   type: git
