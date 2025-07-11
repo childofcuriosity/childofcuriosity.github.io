@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>自适应锐化相关论文</title>
+    <link href="/2025/07/11/%E8%87%AA%E9%80%82%E5%BA%94%E9%94%90%E5%8C%96%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/"/>
+    <url>/2025/07/11/%E8%87%AA%E9%80%82%E5%BA%94%E9%94%90%E5%8C%96%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/</url>
+    
+    <content type="html"><![CDATA[<table><thead><tr><th>标题</th><th>动机</th><th>做法</th></tr></thead><tbody><tr><td>Assessing Diversity Collapse in Reasoning</td><td>finetune 让pass1增加pass减少</td><td>把当前和历史checkpoint混起来</td></tr><tr><td>TURNING UP THE HEAT: MIN-p SAMPLING FOR CREATIVE AND COHERENT LLM OUTPUTS</td><td>用来不确定时保留的多些</td><td>最大p下一定比例保留</td></tr><tr><td>Maximizing Confidence Alone Improves Reasoning</td><td>锐化</td><td>奖励信号是熵</td></tr><tr><td>Beyond the 80&#x2F;20 Rule: High-Entropy Minority Tokens Drive Effective Reinforcement Learning for LLM Reasoning</td><td>确定的保留，不确定的多学</td><td>只RL不确定的</td></tr></tbody></table><p>有一个自我提升workshop</p><p><a href="https://iclr.cc/virtual/2025/workshop/23971">https://iclr.cc/virtual/2025/workshop/23971</a></p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>看困难论文的重要感悟</title>
     <link href="/2025/07/10/%E7%9C%8B%E5%9B%B0%E9%9A%BE%E8%AE%BA%E6%96%87%E7%9A%84%E9%87%8D%E8%A6%81%E6%84%9F%E6%82%9F/"/>
     <url>/2025/07/10/%E7%9C%8B%E5%9B%B0%E9%9A%BE%E8%AE%BA%E6%96%87%E7%9A%84%E9%87%8D%E8%A6%81%E6%84%9F%E6%82%9F/</url>
