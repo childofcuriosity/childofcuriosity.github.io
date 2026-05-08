@@ -328,7 +328,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.3k 字
+          2.2k 字
         
       </span>
     
@@ -385,21 +385,15 @@
                 
                 <p>最近在研读 DeepSeek 提出的 <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2409.19606">Hyper-Connections</a>（超连接）时，发现论文中的扩展因子 $n$ 存在一个有趣的冗余：在第 $l$ 层，将 $n$ 替换为 $\min(l, n)$ 不会损失任何表达能力。本文记录这一观察及其背后的线性代数原因。</p>
 <span id="more"></span>
-
 <h2 id="背景：Hyper-Connections-是什么"><a href="#背景：Hyper-Connections-是什么" class="headerlink" title="背景：Hyper-Connections 是什么"></a>背景：Hyper-Connections 是什么</h2><p>传统残差连接的形式是：</p>
-<p>$$h^{l} &#x3D; h^{l-1} + \mathcal{T}_l(h^{l-1})$$</p>
-<p>Hyper-Connections 将其推广为一个<strong>多向量状态</strong>。引入扩展因子 $n$，在每一层维护一个<strong>超隐矩阵</strong> $\mathbf{H}^l \in \mathbb{R}^{n \times d}$，由 $n$ 个隐向量组成：</p>
-<p>$$\mathbf{H}^l &#x3D; \begin{pmatrix} \mathbf{h}_1^l \ \mathbf{h}_2^l \ \vdots \ \mathbf{h}_n^l \end{pmatrix}$$</p>
-<p>初始化时，所有 $n$ 个向量都是输入嵌入的副本：</p>
-<p>$$\mathbf{H}^0 &#x3D; \begin{pmatrix} \mathbf{h}^0 \ \mathbf{h}^0 \ \vdots \ \mathbf{h}^0 \end{pmatrix}$$</p>
-<p>每层的更新通过一个 HC 连接矩阵完成，同时引入<strong>深度连接</strong>（跨层）和<strong>宽度连接</strong>（层内 $n$ 个向量之间）：</p>
-<p>$$\mathbf{H}^l &#x3D; \mathbf{A}_r^{l\top} \mathbf{H}^{l-1} + \mathbf{B}^{l\top} \mathcal{T}_l(\mathbf{A}_m^{l\top} \mathbf{H}^{l-1})$$</p>
-<p>其中 $\mathbf{A}_r^l \in \mathbb{R}^{n \times n}$，$\mathbf{A}_m^l \in \mathbb{R}^{n \times 1}$，$\mathbf{B}^l \in \mathbb{R}^{1 \times n}$。</p>
+<script type="math/tex; mode=display">h^{l} = h^{l-1} + \mathcal{T}_l(h^{l-1})</script><p>Hyper-Connections 将其推广为一个<strong>多向量状态</strong>。引入扩展因子 $n$，在每一层维护一个<strong>超隐矩阵</strong> $\mathbf{H}^l \in \mathbb{R}^{n \times d}$，由 $n$ 个隐向量组成：</p>
+<script type="math/tex; mode=display">\mathbf{H}^l = \begin{pmatrix} \mathbf{h}_1^l \\ \mathbf{h}_2^l \\ \vdots \\ \mathbf{h}_n^l \end{pmatrix}</script><p>初始化时，所有 $n$ 个向量都是输入嵌入的副本：</p>
+<script type="math/tex; mode=display">\mathbf{H}^0 = \begin{pmatrix} \mathbf{h}^0 \\ \mathbf{h}^0 \\ \vdots \\ \mathbf{h}^0 \end{pmatrix}</script><p>每层的更新通过一个 HC 连接矩阵完成，同时引入<strong>深度连接</strong>（跨层）和<strong>宽度连接</strong>（层内 $n$ 个向量之间）：</p>
+<script type="math/tex; mode=display">\mathbf{H}^l = \mathbf{A}_r^{l\top} \mathbf{H}^{l-1} + \mathbf{B}^{l\top} \mathcal{T}_l(\mathbf{A}_m^{l\top} \mathbf{H}^{l-1})</script><p>其中 $\mathbf{A}_r^l \in \mathbb{R}^{n \times n}$，$\mathbf{A}_m^l \in \mathbb{R}^{n \times 1}$，$\mathbf{B}^l \in \mathbb{R}^{1 \times n}$。</p>
 <h2 id="核心观察：第-l-层的残差向量生活在-S-l-子空间中"><a href="#核心观察：第-l-层的残差向量生活在-S-l-子空间中" class="headerlink" title="核心观察：第 $l$ 层的残差向量生活在 $S_l$ 子空间中"></a>核心观察：第 $l$ 层的残差向量生活在 $S_l$ 子空间中</h2><p><strong>定义 $S_l$</strong>：令 $S_l$ 为由前 $l+1$ 个”基向量”张成的子空间：</p>
-<p>$$S_l &#x3D; \mathrm{span}{\mathbf{h}^0,\ \mathcal{T}_1(\cdot),\ \mathcal{T}_2(\cdot),\ \ldots,\ \mathcal{T}_l(\cdot)}$$</p>
-<p><strong>归纳论证</strong>：</p>
+<script type="math/tex; mode=display">S_l = \mathrm{span}\{\mathbf{h}^0,\ \mathcal{T}_1(\cdot),\ \mathcal{T}_2(\cdot),\ \ldots,\ \mathcal{T}_l(\cdot)\}</script><p><strong>归纳论证</strong>：</p>
 <ul>
-<li><p><strong>$l&#x3D;0$</strong>：$\mathbf{H}^0$ 的所有 $n$ 行都等于 $\mathbf{h}^0$，秩为 $1$。每一行都在 $S_0 &#x3D; \mathrm{span}{\mathbf{h}^0}$ 中。</p>
+<li><p><strong>$l=0$</strong>：$\mathbf{H}^0$ 的所有 $n$ 行都等于 $\mathbf{h}^0$，秩为 $1$。每一行都在 $S_0 = \mathrm{span}{\mathbf{h}^0}$ 中。</p>
 </li>
 <li><p><strong>$l \to l+1$</strong>：假设 $\mathbf{H}^l$ 的每一行都在 $S_l$ 中。则：</p>
 <ul>
@@ -409,18 +403,18 @@
 </ul>
 </li>
 </ul>
-<p>因此，$\mathbf{H}^{l+1}$ 的每一行都在 $S_{l+1}$ 中，$\dim(S_{l+1}) \leq l+2$。</p>
+<p>因此，$\mathbf{H}^{l+1}$ 的每一行都在 $S<em>{l+1}$ 中，$\dim(S</em>{l+1}) \leq l+2$。</p>
 <p><strong>关键结论</strong>：在第 $l$ 层，$\mathbf{H}^l$ 的所有行向量都生活在维度不超过 $l+1$ 的子空间 $S_l$ 中。<strong>当 $n &gt; l+1$ 时，$n$ 个行向量之间存在线性相关，多出来的那些维度是冗余的。</strong></p>
 <h2 id="推论：-n-可以替换为-min-l-n"><a href="#推论：-n-可以替换为-min-l-n" class="headerlink" title="推论：$n$ 可以替换为 $\min(l, n)$"></a>推论：$n$ 可以替换为 $\min(l, n)$</h2><p>由于在第 $l$ 层最多只有 $l+1$ 个线性独立的残差方向，超隐矩阵 $\mathbf{H}^l$ 的有效秩至多为 $l+1$。</p>
-<p>因此，使用扩展因子 $n_l &#x3D; \min(l+1, n)$（即在第 $l$ 层使用 $\min(l+1, n)$ 个向量）与使用固定的 $n$ 具有<strong>完全相同的表达能力</strong>。</p>
-<p>形式化地说：对任意固定 $n$ 的 Hyper-Connections 模型，存在一个使用自适应 $n_l &#x3D; \min(l+1, n)$ 的模型，二者可以表示完全相同的函数类。</p>
+<p>因此，使用扩展因子 $n_l = \min(l+1, n)$（即在第 $l$ 层使用 $\min(l+1, n)$ 个向量）与使用固定的 $n$ 具有<strong>完全相同的表达能力</strong>。</p>
+<p>形式化地说：对任意固定 $n$ 的 Hyper-Connections 模型，存在一个使用自适应 $n_l = \min(l+1, n)$ 的模型，二者可以表示完全相同的函数类。</p>
 <h2 id="实际意义"><a href="#实际意义" class="headerlink" title="实际意义"></a>实际意义</h2><p>这一观察带来几个有趣的启示：</p>
 <p><strong>1. 早期层的计算冗余</strong></p>
-<p>在前 $n-1$ 层，固定 $n$ 的设置在使用超过实际需要的向量数量。例如，第 $1$ 层只需要 $2$ 个独立向量，但固定 $n&#x3D;8$ 的设置却维护了 $8$ 个（其中 $6$ 个是前两个的线性组合）。</p>
+<p>在前 $n-1$ 层，固定 $n$ 的设置在使用超过实际需要的向量数量。例如，第 $1$ 层只需要 $2$ 个独立向量，但固定 $n=8$ 的设置却维护了 $8$ 个（其中 $6$ 个是前两个的线性组合）。</p>
 <p><strong>2. 参数高效的自适应设计</strong></p>
-<p>可以设计一个”渐进式 Hyper-Connections”：从 $n_0&#x3D;1$ 开始，每层递增，直到达到上限 $n$。这在保持相同表达能力的同时，减少了早期层的参数量和计算量。</p>
+<p>可以设计一个”渐进式 Hyper-Connections”：从 $n_0=1$ 开始，每层递增，直到达到上限 $n$。这在保持相同表达能力的同时，减少了早期层的参数量和计算量。</p>
 <p><strong>3. 对初始化的影响</strong></p>
-<p>论文提出的初始化策略 $\mathbf{A}<em>m^k &#x3D; \mathbf{e}</em>{k \bmod n}$（循环分配）实际上在 $l &lt; n$ 时就已经隐含了某种”渐进”结构，但并未从理论上显式利用这一子空间约束。</p>
+<p>论文提出的初始化策略 $\mathbf{A}<em>m^k = \mathbf{e}</em>{k \bmod n}$（循环分配）实际上在 $l &lt; n$ 时就已经隐含了某种”渐进”结构，但并未从理论上显式利用这一子空间约束。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Hyper-Connections 中扩展因子 $n$ 在早期层存在线性冗余：第 $l$ 层的超隐矩阵行向量生活在维度至多为 $l+1$ 的子空间 $S_l$ 中，因此将 $n$ 替换为 $\min(l+1, n)$ 不损失表达能力。这一观察为设计更参数高效的超连接变体提供了理论依据。</p>
 
                 
